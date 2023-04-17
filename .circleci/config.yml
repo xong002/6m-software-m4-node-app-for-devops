@@ -30,14 +30,14 @@ jobs:
           username: xong002
           password: Password1!
     steps:
+      - checkout
       - setup_remote_docker:
           version: 20.10.14
           docker_layer_caching: true
       - run : |
-          TAG=0.1.$CIRCLE_BUILD_NUM
-          docker build -t circleci-demo:$TAG .
+          docker build -t circleci-demo .
           echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
-          docker push circleci-demo:$TAG   
+          docker push circleci-demo   
 
 workflows:
   simple_workflow:
