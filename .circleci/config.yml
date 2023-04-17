@@ -32,8 +32,8 @@ jobs:
           version: 20.10.14
           docker_layer_caching: true
       - run : |
-          docker build -t xong002/circleci-demo1 .
-          docker push xong002/circleci-demo1   
+          docker build -t circleci-demo1 .
+          docker push circleci-demo1   
 
 workflows:
   simple_workflow:
