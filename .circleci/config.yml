@@ -26,9 +26,6 @@ jobs:
   publish:
     docker:
       - image: cimg/node:16.10
-        auth: 
-          username: xong002
-          password: Password1!
     steps:
       - checkout
       - setup_remote_docker:
