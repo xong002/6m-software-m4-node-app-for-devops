@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.1
+  docker: circleci/docker@2.2.0
 jobs:
   build:
     docker:
@@ -22,6 +23,20 @@ jobs:
       - run: |
           echo "Running tests..."
           npm run test
+  publish:
+    docker:
+      - image: cimg/node:16.10
+        auth: 
+          username: xong002
+          password: Password1!
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+      - run : |
+        docker build -t "CircleCI-demo" .
+        echo $DOCKER_PASS | docker login -u $DOCKER_USER --password-stdin
+        docker push "CircleCI-demo"   
 
 workflows:
   simple_workflow:
@@ -30,3 +45,8 @@ workflows:
       - test:
           requires:
             - build
+      - publish:
+          requires:
+            - test
+            - build            
+
