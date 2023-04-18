@@ -58,30 +58,24 @@ workflows:
       - build:
           filters:
             branches:
-              only:        
-                - main
+              only: main
       - test:
+          requires:
+            - build 
           filters:
             branches:
-              only:        
-                - main      
-          requires:
-            - build
-      - publish:
-          requires:
-            - test
+              only: main     
+      - publish:  
           filters:
-            branches:
-              ignore: /.*/
             tags:
-              only: 
-                - /^v.*/
+              only: /^v.*/  
+            branches: 
+              ignore: /.*/
       - deploy:
           requires:
             - publish
           filters:
-            branches:
-              ignore: /.*/
             tags:
-              only: 
-                - /^v.*/
+              only: /^v.*/
+            branches: 
+              ignore: /.*/
