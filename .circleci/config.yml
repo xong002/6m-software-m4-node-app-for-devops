@@ -67,6 +67,10 @@ workflows:
       - publish:
           requires:
             - test
+          filters:
+            tags:
+              only: 
+                - /^\d+\.\d+\.\d+$/
       - deploy:
           requires:
             - publish 
