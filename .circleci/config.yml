@@ -73,4 +73,8 @@ workflows:
                 - /^\d+\.\d+\.\d+$/
       - deploy:
           requires:
-            - publish 
+            - publish
+          filters:
+            tags:
+              only: 
+                - /^\d+\.\d+\.\d+$/ 
