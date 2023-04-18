@@ -72,7 +72,7 @@ workflows:
               ignore: /.*/
             tags:
               only: 
-                - /^\d+\.\d+\.\d+$/
+                - /^v.*/
       - deploy:
           requires:
             - publish
@@ -81,4 +81,4 @@ workflows:
               ignore: /.*/
             tags:
               only: 
-                - /^\d+\.\d+\.\d+$/ 
+                - /^v.*/
