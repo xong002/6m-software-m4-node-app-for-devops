@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5.0.1
-  docker: circleci/docker@2.2.0
+  docker: circleci/docker@2.1.4
   heroku: circleci/heroku@2.0.0
 jobs:
   build:
@@ -12,7 +12,7 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run: |
-          echo "Installing dependencies..."
+          echo Installing dependencies...”
           npm install
   test:
     docker:
@@ -22,16 +22,14 @@ jobs:
       - node/install-packages:
           pkg-manager: npm
       - run: |
-          echo "Running tests..."
+          echo “Running tests...”
           npm run test
-  publish:
-    docker:
-      - image: cimg/node:16.10
+  
+  build-and-push:
+    executor: docker/docker    
     steps:
+      - setup_remote_docker
       - checkout
-      - setup_remote_docker:
-          version: 20.10.14
-          docker_layer_caching: true
       - docker/check
       - docker/build:
           image: xong002/circleci-demo
@@ -39,19 +37,21 @@ jobs:
       - docker/push:
           image: xong002/circleci-demo
           tag: <<pipeline.git.tag>>
+
   deploy:
-      docker:
-          - image: cimg/node:16.10
-      steps:
-          - setup_remote_docker      
-          - heroku/install
-          - checkout
-          - run:
-              name: Heroku Container Push
-              command: | 
-                  heroku container:login
-                  heroku container:push web -a xinzhi-su-devops
-                  heroku container:release web -a xinzhi-su-devops
+    docker:
+      - image: cimg/node:16.10
+    steps:
+      - setup_remote_docker      
+      - heroku/install
+      - checkout
+      - run:
+          name: Heroku Container Push
+          command: | 
+            heroku container:login
+            heroku container:push web -a xinzhi-su-devops
+            heroku container:release web -a xinzhi-su-devops
+
 workflows:
   simple_workflow:
     jobs:
@@ -65,7 +65,7 @@ workflows:
           filters:
             branches:
               only: main     
-      - publish:  
+      - build-and-push:  
           filters:
             tags:
               only: /^v.*/  
@@ -73,7 +73,7 @@ workflows:
               ignore: /.*/
       - deploy:
           requires:
-            - publish
+            - build-and-push
           filters:
             tags:
               only: /^v.*/
