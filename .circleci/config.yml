@@ -24,7 +24,6 @@ jobs:
       - run: |
           echo “Running tests...”
           npm run test
-  
   build-and-push:
     executor: docker/docker    
     steps:
@@ -37,7 +36,6 @@ jobs:
       - docker/push:
           image: xong002/circleci-demo
           tag: <<pipeline.git.tag>>
-
   deploy:
     docker:
       - image: cimg/node:16.10
@@ -51,7 +49,6 @@ jobs:
             heroku container:login
             heroku container:push web -a xinzhi-su-devops
             heroku container:release web -a xinzhi-su-devops
-
 workflows:
   simple_workflow:
     jobs:
