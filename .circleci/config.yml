@@ -5,6 +5,10 @@ orbs:
   heroku: circleci/heroku@2.0.0
 jobs:
   build:
+    filters:
+      branches:
+          only:        
+              - main
     docker:
       - image: cimg/node:16.10
     steps:
@@ -15,6 +19,10 @@ jobs:
           echo "Installing dependencies..."
           npm install
   test:
+    filters:
+      branches:
+          only:        
+              - main  
     docker:
       - image: cimg/node:16.10
     steps:
