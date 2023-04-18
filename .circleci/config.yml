@@ -67,6 +67,8 @@ workflows:
       - publish:
           requires:
             - test
+          branches:
+            ignore: /.*/
           filters:
             tags:
               only: 
@@ -74,6 +76,8 @@ workflows:
       - deploy:
           requires:
             - publish
+          branches:
+            ignore: /.*/
           filters:
             tags:
               only: 
