@@ -67,18 +67,18 @@ workflows:
       - publish:
           requires:
             - test
-          branches:
-            ignore: /.*/
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: 
                 - /^\d+\.\d+\.\d+$/
       - deploy:
           requires:
             - publish
-          branches:
-            ignore: /.*/
           filters:
+            branches:
+              ignore: /.*/
             tags:
               only: 
                 - /^\d+\.\d+\.\d+$/ 
