@@ -62,6 +62,8 @@ workflows:
           filters:
             branches:
               only: main
+  build-n-deploy:
+    jobs:              
       - build-and-push:
           filters:
             tags:
