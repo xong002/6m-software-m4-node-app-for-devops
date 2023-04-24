@@ -75,7 +75,7 @@ workflows:
           filters:
             branches:
               only: main
-      # The scan job
+      # The scan job 
       - scan:
           requires:
             - build
