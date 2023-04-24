@@ -2,7 +2,8 @@ version: 2.1
 orbs:
   node: circleci/node@5.0.1
   docker: circleci/docker@2.1.4
-  heroku: circleci/heroku@2.0.0
+  snyk: snyk/snyk@1.5.0
+  # heroku: circleci/heroku@2.0.0
 jobs:
   build:
     docker:
@@ -24,6 +25,18 @@ jobs:
       - run: |
           echo “Running tests...”
           npm run test
+  scan:
+    docker:
+        - image: cimg/node:16.10
+    environment:
+        IMAGE_NAME: xong002/circleci-demo
+    steps:
+        - checkout
+        - setup_remote_docker      
+        - docker/check
+        - run: docker build -t $IMAGE_NAME .
+        - snyk/scan: 
+            docker-image-name: $IMAGE_NAME
   build-and-push:
     executor: docker/docker
     steps:
