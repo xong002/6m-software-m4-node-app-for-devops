@@ -75,6 +75,13 @@ workflows:
           filters:
             branches:
               only: main
+      # The scan job
+      - scan:
+          requires:
+            - build
+          filters:
+            branches:
+              only: main
   build-n-deploy:
     jobs:              
       - build-and-push:
